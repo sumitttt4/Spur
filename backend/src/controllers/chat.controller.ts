@@ -4,14 +4,14 @@ import { z } from 'zod';
 
 const messageSchema = z.object({
     message: z.string().min(1),
-    sessionId: z.string().optional(),
+    sessionId: z.string().nullish(),
 });
 
 export const sendMessage = async (req: Request, res: Response) => {
     try {
         const { message, sessionId } = messageSchema.parse(req.body);
 
-        const result = await ChatService.processMessage(message, sessionId);
+        const result = await ChatService.processMessage(message, sessionId || undefined);
 
         res.json(result);
     } catch (error) {
