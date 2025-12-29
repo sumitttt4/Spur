@@ -36,7 +36,7 @@ export class LLMService {
             return completion.choices[0]?.message?.content || "I'm having trouble thinking right now.";
         } catch (error) {
             console.error('LLM Error Detailed:', error); // Improved logging
-            return "I'm having trouble connecting to my brain. Please try again later.";
+            return `Error from AI Brain: ${error instanceof Error ? error.message : String(error)}`;
         }
     }
 }
