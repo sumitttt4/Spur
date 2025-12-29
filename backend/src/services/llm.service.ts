@@ -23,7 +23,7 @@ export class LLMService {
     static async generateReply(messages: { role: string; content: string }[]) {
         try {
             const completion = await openai.chat.completions.create({
-                model: 'llama3-8b-8192',
+                model: 'llama-3.3-70b-versatile',
                 messages: [
                     { role: 'system', content: SYSTEM_PROMPT },
                     ...messages.map(m => ({
@@ -36,7 +36,7 @@ export class LLMService {
             return completion.choices[0]?.message?.content || "I'm having trouble thinking right now.";
         } catch (error) {
             console.error('LLM Error Detailed:', error); // Improved logging
-            return `Error from AI Brain: ${error instanceof Error ? error.message : String(error)}`;
+            return "I'm having trouble connecting to my brain. Please try again later.";
         }
     }
 }
