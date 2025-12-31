@@ -18,8 +18,11 @@ export const sendMessage = async (req: Request, res: Response) => {
         if (error instanceof z.ZodError) {
             res.status(400).json({ error: error.errors });
         } else {
-            console.error(error);
-            res.status(500).json({ error: 'Internal server error' });
+            console.error('CRITICAL BACKEND ERROR:', error);
+            res.status(500).json({
+                error: 'Failed to process message',
+                details: error instanceof Error ? error.message : 'Unknown error'
+            });
         }
     }
 };

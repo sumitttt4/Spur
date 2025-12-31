@@ -11,6 +11,31 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
+// Basic Markdown Renderer to handle **bold** and newlines
+function SimpleMarkdownRenderer({ content }: { content: string }) {
+    // 1. Process newlines first
+    const lines = content.split('\n');
+
+    return (
+        <div className="space-y-1">
+            {lines.map((line, i) => {
+                if (!line.trim()) return <div key={i} className="h-2" />; // min-height for empty lines
+
+                // 2. Process bold markers **text**
+                const parts = line.split(/\*\*(.*?)\*\*/g);
+                return (
+                    <p key={i} className="leaing-relaxed">
+                        {parts.map((part, j) => (
+                            // Even indices are normal, Odd are bold (matches)
+                            j % 2 === 1 ? <strong key={j} className="font-semibold text-zinc-900 dark:text-zinc-100">{part}</strong> : <span key={j}>{part}</span>
+                        ))}
+                    </p>
+                );
+            })}
+        </div>
+    );
+}
+
 export function ChatWidget({ className }: { className?: string }) {
     const { messages, isLoading, error, sendMessage, resetChat } = useChatUI();
     const [input, setInput] = useState('');
@@ -88,7 +113,11 @@ export function ChatWidget({ className }: { className?: string }) {
                                         : "bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 rounded-2xl rounded-tl-sm"
                                 )}
                             >
-                                {msg.content}
+                                {msg.role === 'assistant' ? (
+                                    <SimpleMarkdownRenderer content={msg.content} />
+                                ) : (
+                                    msg.content
+                                )}
                             </div>
                         </div>
                     ))}
