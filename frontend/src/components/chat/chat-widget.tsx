@@ -34,7 +34,7 @@ export function ChatWidget({ className }: { className?: string }) {
     };
 
     return (
-        <Card className={cn("flex flex-col w-full h-[600px] mx-auto shadow-xl border-zinc-200 dark:border-zinc-800 overflow-hidden", className)}>
+        <Card className={cn("flex flex-col w-full mx-auto shadow-xl border-zinc-200 dark:border-zinc-800 overflow-hidden", className)}>
             <CardHeader className="bg-zinc-50 dark:bg-zinc-900 border-b p-4 flex flex-row items-center space-y-0 gap-3">
                 <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
                     <Sparkles className="w-5 h-5" />
