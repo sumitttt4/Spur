@@ -64,6 +64,7 @@ export function useChatUI() {
 
         try {
             const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000/api/chat';
+            console.log("Chat Hook: Sending message to", [`${API_BASE}/message`]);
 
             // Create a timeout controller to prevent hanging forever
             const controller = new AbortController();
