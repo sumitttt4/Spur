@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Message } from '../types/chat';
 
-const API_URL = 'http://localhost:4000/api/chat';
+
 
 export function useChatUI() {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -21,7 +21,7 @@ export function useChatUI() {
     const fetchHistory = async (id: string) => {
         try {
             setIsLoading(true);
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/chat';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000/api/chat';
 
             // Create a timeout controller
             const controller = new AbortController();
@@ -63,7 +63,7 @@ export function useChatUI() {
         setError(null);
 
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/chat';
+            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:4000/api/chat';
 
             // Create a timeout controller to prevent hanging forever
             const controller = new AbortController();
