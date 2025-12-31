@@ -47,20 +47,39 @@ If a customer asks a question not covered here, kindly offer to connect them wit
 export class LLMService {
     static async generateReply(messages: { role: string; content: string }[]) {
         try {
+            // Guardrail 1: Cap Context Window (Cost Control)
+            // Only send the last 10 messages to keep token usage low
+            const recentMessages = messages.slice(-10);
+
             const completion = await openai.chat.completions.create({
                 model: 'llama-3.1-8b-instant',
                 messages: [
                     { role: 'system', content: SYSTEM_PROMPT },
-                    ...messages.map(m => ({
+                    ...recentMessages.map(m => ({
                         role: m.role as 'user' | 'assistant',
-                        content: m.content,
+                        content: m.content, // We could also truncate long user messages here
                     })),
                 ],
+                // Guardrail 2: Cap Response Tokens (Cost Control)
+                max_tokens: 300,
+                temperature: 0.7,
             });
 
             return completion.choices[0]?.message?.content || "I'm having trouble thinking right now.";
-        } catch (error) {
-            console.error('LLM Error Detailed:', error);
+        } catch (error: any) {
+            console.error('LLM Error:', error);
+
+            // Guardrail 3: Graceful Error Handling
+            if (error?.status === 429) {
+                return "I'm receiving too many messages right now. Please allow me a moment to catch up!";
+            }
+            if (error?.status === 401) {
+                return "My configuration seems to be invalid (API Key Error). Please contact support.";
+            }
+            if (error?.status === 503 || error?.status === 500) {
+                return "I'm currently undergoing maintenance. Please try again in a few minutes.";
+            }
+
             return "I'm having trouble connecting to my brain. Please try again later.";
         }
     }
