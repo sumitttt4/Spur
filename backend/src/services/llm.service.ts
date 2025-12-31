@@ -48,10 +48,12 @@ If a customer asks a question not covered here, kindly offer to connect them wit
 `;
 
 export class LLMService {
+    /**
+     * Generates a reply from the LLM based on the conversation history.
+     * Includes guardrails for context window and error handling.
+     */
     static async generateReply(messages: { role: string; content: string }[]) {
         try {
-            // Guardrail 1: Cap Context Window (Cost Control)
-            // Only send the last 10 messages to keep token usage low
             const recentMessages = messages.slice(-10);
 
             const completion = await openai.chat.completions.create({
@@ -60,10 +62,9 @@ export class LLMService {
                     { role: 'system', content: SYSTEM_PROMPT },
                     ...recentMessages.map(m => ({
                         role: m.role as 'user' | 'assistant',
-                        content: m.content, // We could also truncate long user messages here
+                        content: m.content,
                     })),
                 ],
-                // Guardrail 2: Cap Response Tokens (Cost Control)
                 max_tokens: 300,
                 temperature: 0.7,
             });
@@ -72,7 +73,6 @@ export class LLMService {
         } catch (error: any) {
             console.error('LLM Error:', error);
 
-            // Guardrail 3: Graceful Error Handling
             if (error?.status === 429) {
                 return "I'm receiving too many messages right now. Please allow me a moment to catch up!";
             }
