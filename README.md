@@ -63,9 +63,26 @@ Visit `http://localhost:3000` to verify the application is running.
 
 ---
 
-## Architecture Overview
+### Architecture Overview
 
 The project follows a Service-Oriented Architecture within a monorepo structure:
+
+```mermaid
+graph TD
+    User[User] -->|Sends Message| UI[Frontend (Next.js)]
+    UI -->|POST /chat/message| API[Backend (Express)]
+    
+    subgraph Backend Services
+        API -->|Validate| Controller
+        Controller -->|Process| ChatService
+        ChatService -->|Fetch Context| DB[(PostgreSQL)]
+        ChatService -->|Generate Reply| LLM[LLM Service (Groq)]
+    end
+    
+    LLM -->|Response| ChatService
+    ChatService -->|Persist| DB
+    ChatService -->|Return Reply| UI
+```
 
 ### Backend (`/backend`)
 
