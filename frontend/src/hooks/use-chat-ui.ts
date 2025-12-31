@@ -9,14 +9,14 @@ export function useChatUI() {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    // Load session from local storage on mount
-    useEffect(() => {
-        const savedSession = localStorage.getItem('spur_chat_session');
-        if (savedSession) {
-            setSessionId(savedSession);
-            fetchHistory(savedSession);
-        }
-    }, []);
+    // Load session from local storage on mount - DISABLED per user request (New chat on refresh)
+    // useEffect(() => {
+    //     const savedSession = localStorage.getItem('spur_chat_session');
+    //     if (savedSession) {
+    //         setSessionId(savedSession);
+    //         fetchHistory(savedSession);
+    //     }
+    // }, []);
 
     const fetchHistory = async (id: string) => {
         try {
