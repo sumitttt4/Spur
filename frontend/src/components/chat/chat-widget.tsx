@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { useChatUI } from '@/hooks/use-chat-ui';
-import { Send, Sparkles, Bot, Loader2 } from 'lucide-react';
+import { Send, Sparkles, Bot, Loader2, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
 export function ChatWidget({ className }: { className?: string }) {
-    const { messages, isLoading, error, sendMessage } = useChatUI();
+    const { messages, isLoading, error, sendMessage, resetChat } = useChatUI();
     const [input, setInput] = useState('');
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -35,20 +35,32 @@ export function ChatWidget({ className }: { className?: string }) {
 
     return (
         <Card className={cn("flex flex-col w-full mx-auto shadow-xl border-zinc-200 dark:border-zinc-800 overflow-hidden", className)}>
-            <CardHeader className="bg-zinc-50 dark:bg-zinc-900 border-b p-4 flex flex-row items-center space-y-0 gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-                    <Sparkles className="w-5 h-5" />
-                </div>
-                <div className="flex flex-col">
-                    <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">Spur Assistant</h2>
-                    <div className="flex items-center gap-1.5">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                        <span className="text-xs text-zinc-500 font-medium">Online</span>
+            <CardHeader className="bg-zinc-50 dark:bg-zinc-900 border-b p-4 flex flex-row items-center justify-between space-y-0">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                        <Sparkles className="w-5 h-5" />
+                    </div>
+                    <div className="flex flex-col">
+                        <h2 className="font-semibold text-zinc-900 dark:text-zinc-100">Spur Assistant</h2>
+                        <div className="flex items-center gap-1.5">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span className="text-xs text-zinc-500 font-medium">Online</span>
+                        </div>
                     </div>
                 </div>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={resetChat}
+                    className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 gap-1.5"
+                    title="Start New Chat"
+                >
+                    <PlusCircle className="w-4 h-4" />
+                    <span className="sr-only sm:not-sr-only sm:inline-block text-xs font-medium">New Chat</span>
+                </Button>
             </CardHeader>
 
             <ScrollArea className="flex-1 min-h-0 p-4 bg-zinc-50/50 dark:bg-zinc-900/50" ref={scrollRef}>

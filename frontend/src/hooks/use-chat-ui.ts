@@ -9,20 +9,27 @@ export function useChatUI() {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    // Load session from local storage on mount - DISABLED per user request (New chat on refresh)
-    // useEffect(() => {
-    //     const savedSession = localStorage.getItem('spur_chat_session');
-    //     if (savedSession) {
-    //         setSessionId(savedSession);
-    //         fetchHistory(savedSession);
-    //     }
-    // }, []);
+    // Load session from local storage on mount
+    useEffect(() => {
+        const savedSession = localStorage.getItem('spur_chat_session');
+        if (savedSession) {
+            setSessionId(savedSession);
+            fetchHistory(savedSession);
+        }
+    }, []);
 
     const fetchHistory = async (id: string) => {
         try {
             setIsLoading(true);
             const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/chat';
-            const res = await fetch(`${API_BASE}/${id}`);
+
+            // Create a timeout controller
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout for history
+
+            const res = await fetch(`${API_BASE}/${id}`, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
             if (res.ok) {
                 const historyData = await res.json();
                 setMessages(historyData.messages);
@@ -33,6 +40,12 @@ export function useChatUI() {
             setIsLoading(false);
         }
     };
+
+    const resetChat = useCallback(() => {
+        setSessionId(null);
+        setMessages([]);
+        localStorage.removeItem('spur_chat_session');
+    }, []);
 
     const sendMessage = useCallback(async (content: string) => {
         if (!content.trim()) return;
@@ -101,5 +114,7 @@ export function useChatUI() {
         isLoading,
         error,
         sendMessage,
+        resetChat,
+        sessionId
     };
 }
