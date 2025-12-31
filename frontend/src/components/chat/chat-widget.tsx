@@ -100,7 +100,7 @@ export function ChatWidget({ className }: { className?: string }) {
                 </div>
             </ScrollArea>
 
-            <CardFooter className="p-4 bg-white dark:bg-zinc-900 border-t">
+            <CardFooter className="p-4 bg-white dark:bg-zinc-900 border-t shrink-0">
                 <form onSubmit={handleSubmit} className="flex flex-col w-full gap-2">
                     <div className="flex w-full gap-2 relative">
                         <Input
@@ -120,7 +120,7 @@ export function ChatWidget({ className }: { className?: string }) {
                             <span className="sr-only">Send</span>
                         </Button>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center pb-1">
                         <span className="text-[10px] text-zinc-400 font-medium">Powered by OpenAI & Spur</span>
                     </div>
                 </form>
