@@ -51,6 +51,11 @@ export function useChatUI() {
 
         try {
             const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/chat';
+
+            // Create a timeout controller to prevent hanging forever
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
             const res = await fetch(`${API_BASE}/message`, {
                 method: 'POST',
                 headers: {
@@ -60,7 +65,9 @@ export function useChatUI() {
                     message: content,
                     sessionId,
                 }),
+                signal: controller.signal,
             });
+            clearTimeout(timeoutId);
 
             if (!res.ok) {
                 throw new Error('Failed to send message');
