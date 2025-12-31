@@ -3,7 +3,7 @@ import { ChatService } from '../services/chat.service';
 import { z } from 'zod';
 
 const messageSchema = z.object({
-    message: z.string().min(1),
+    message: z.string().min(1, "Message cannot be empty").max(1000, "Message is too long (max 1000 chars)"),
     sessionId: z.string().nullish(),
 });
 
