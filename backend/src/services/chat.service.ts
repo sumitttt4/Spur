@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../config/prisma';
 import { LLMService } from './llm.service';
-
-const prisma = new PrismaClient();
 
 export class ChatService {
     static async processMessage(content: string, sessionId?: string) {
