@@ -51,7 +51,7 @@ export function ChatWidget({ className }: { className?: string }) {
                 </div>
             </CardHeader>
 
-            <ScrollArea className="flex-1 p-4 bg-zinc-50/50 dark:bg-zinc-900/50" ref={scrollRef}>
+            <ScrollArea className="flex-1 min-h-0 p-4 bg-zinc-50/50 dark:bg-zinc-900/50" ref={scrollRef}>
                 <div className="flex flex-col min-h-full space-y-4 pr-4">
                     {messages.length === 0 && (
                         <div className="flex flex-col flex-1 items-center justify-center text-zinc-400 space-y-4 opacity-70">
