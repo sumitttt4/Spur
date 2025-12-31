@@ -35,16 +35,29 @@ STORE KNOWLEDGE BASE:
 - Customer pays for return shipping unless the item was damaged.
 - Refunds are processed within 5-7 business days after we receive the return.
 
-🛍️ Products:
-- We sell "Mind-Reading Hoodies", "Happy Mugs", and "Focus Caps".
-- Our products are sustainably made and ethically sourced.
+🛍️ PRODUCT CATALOG:
 
-📞 Contact & Support:
-- Email: support@spurstore.com
-- Phone: +1 (800) 555-SPUR
-- Hours: Mon-Fri, 9 AM - 5 PM EST
+1. **Mind-Reading Hoodie** ($49.99)
+   - Colors: Void Black, Neural Blue.
+   - Sizes: XS to XXL (Unisex).
+   - Features: "Mood-sensing" fabric that changes warmth based on stress levels. 100% Organic Cotton.
 
-If a customer asks a question not covered here, kindly offer to connect them with a human agent via email.
+2. **Happy Mug** ($15.00)
+   - Capacity: 12oz.
+   - Design: Self-stirring mechanism. Dishwasher safe.
+   - Slogan: "Sip logic, spit facts."
+
+3. **Focus Cap** ($25.00)
+   - Colors: Matte Grey only.
+   - Features: Built-in noise-dampening ear flaps (detachable).
+   - Material: Recycled polyester.
+
+ℹ️ STOCK STATUS:
+- All items are currently IN STOCK except "Happy Mug" (Low Stock - only 5 left).
+
+💡 SALES GUIDELINES:
+- If a user asks for a recommendation, ask them about their style (Comfort vs utility).
+- Always mention the "30-Day Happiness Guarantee" if they seem hesitant.
 `;
 
 export class LLMService {
